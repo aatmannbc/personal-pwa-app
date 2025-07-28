@@ -1,7 +1,7 @@
 {
   "name": "personal-pwa-app",
   "version": "1.0.0",
-  "homepage": "https://yourusername.github.io/personal-pwa-app",
+  "homepage": "https://aatmannbc.github.io/personal-pwa-app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
