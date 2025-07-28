@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
+import FirebaseTest from '../components/FirebaseTest';
 
 export default function Home() {
   const authenticated = isAuthenticated();
@@ -118,6 +119,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Firebase Test Component */}
+        <FirebaseTest />
 
         {/* Footer */}
         <footer className="text-center mt-12 text-gray-500">
