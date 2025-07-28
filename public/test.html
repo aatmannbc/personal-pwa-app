@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🎉 Test Page Working!</h1>
+            <p>If you can see this, the basic HTML is loading correctly.</p>
+            <p>The issue might be with React or JavaScript loading.</p>
+            <p>Current URL: <span id="url"></span></p>
+            <p>User Agent: <span id="ua"></span></p>
+        </div>
+        
+        <div class="card">
+            <h2>Debug Info</h2>
+            <p>Page loaded at: <span id="time"></span></p>
+            <p>Document ready state: <span id="state"></span></p>
+            <div id="console-log" style="text-align: left; font-family: monospace; font-size: 12px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Basic debug info
+        document.getElementById('url').textContent = window.location.href;
+        document.getElementById('ua').textContent = navigator.userAgent;
+        document.getElementById('time').textContent = new Date().toLocaleString();
+        document.getElementById('state').textContent = document.readyState;
+        
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const logDiv = document.getElementById('console-log');
+        
+        function addLog(type, message) {
+            const p = document.createElement('p');
+            p.style.color = type === 'error' ? '#ff6b6b' : '#4ecdc4';
+            p.textContent = `[${type.toUpperCase()}] ${message}`;
+            logDiv.appendChild(p);
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog('log', args.join(' '));
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog('error', args.join(' '));
+        };
+        
+        // Test basic functionality
+        console.log('Test page script loaded successfully');
+        console.log('Window location:', window.location.href);
+        
+        // Test if we can reach external resources
+        fetch('/personal-pwa-app/manifest.json')
+            .then(response => {
+                if (response.ok) {
+                    console.log('Manifest.json accessible');
+                } else {
+                    console.error('Manifest.json not accessible:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching manifest:', error.message);
+            });
+    </script>
+</body>
+</html>
